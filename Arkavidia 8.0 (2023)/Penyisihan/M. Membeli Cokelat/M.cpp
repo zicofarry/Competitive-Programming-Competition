@@ -31,23 +31,32 @@ typedef unsigned long long ull;
     ios::sync_with_stdio(false);\
     cin.tie(nullptr);
 using namespace std;
+const int N = 1e5;
+vl adj[N+1], a(N+1), mn(N+1);
+
+void trv(ll p, ll i, ll pv){
+    mn[i] = min(pv, a[i]);
+    for(ll n : adj[i]){
+        if(n == p) continue;
+        trv(i, n, mn[i]);
+    }
+}
 
 void solve(){
-    ll ans = LLONG_MAX;
     ll n; cin >> n;
-    ll k; cin >> k;
-    for(int i = 0; i < n; i++){
-        ll w; cin >> w;
-        ll tmp = k;
-        ll sihir = 0;
-        while(tmp > w){
-            tmp /= 2;
-            sihir++;
-        }
-        sihir += (w - tmp);
-        ans = min(ans, sihir);
+    ll x; cin >> x;
+    for(ll i = 1; i <= n; i++) cin >> a[i];
+    
+    for(ll i = 1; i <= n-1; i++){
+        ll u; cin >> u;
+        ll v; cin >> v;
+        adj[u].pb(v);
+        adj[v].pb(u);
     }
-    cout << ans << nl;
+
+    trv(-1, x, LLONG_MAX);
+    for(ll i = 1; i <= n; i++) cout << mn[i] << sp;
+    cout << nl;
 }
 
 int main(){zicofarry slv return 0;}
